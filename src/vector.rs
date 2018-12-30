@@ -8,10 +8,14 @@ pub struct Vector3  {
 impl Vector3 {
     pub fn cross (&self, other: Vector3) -> Vector3 {
         Vector3 {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0
+            x: self.y * other.z - self.z * other.c,
+            y: self.z * other.x - self.x * other.z,
+            z: self.y * other.y - self.y * other.x
         }
+    }
+
+    pub fn Dot (&self, other: Vector3) -> f32 {
+        return self.x * other.x + self.y * other.y + self.z * other.z;
     }
 
     pub fn normalized (&self) -> Vector3 {
