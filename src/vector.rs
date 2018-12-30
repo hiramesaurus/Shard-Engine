@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct Vector3  {
     pub x : f32,
     pub y : f32,
@@ -6,7 +6,7 @@ pub struct Vector3  {
 }
 
 impl Vector3 {
-    pub fn cross (&self, other: Vector3) -> Vector3 {
+    pub fn cross (&self, other: &Vector3) -> Vector3 {
         return Vector3 {
             x: self.y * other.z - self.z * other.y,
             y: self.z * other.x - self.x * other.z,
@@ -14,7 +14,7 @@ impl Vector3 {
         }
     }
 
-    pub fn dot (&self, other: Vector3) -> f32 {
+    pub fn dot (&self, other: &Vector3) -> f32 {
         return self.x * other.x + self.y * other.y + self.z * other.z;
     }
 
