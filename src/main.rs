@@ -1,5 +1,11 @@
 mod vector;
 
+#[macro_use]
+extern crate serde_derive;
+
+extern crate serde;
+extern crate serde_json;
+
 fn main() {
     let vec1 = vector::Vector3 {
         x: 4.0,
@@ -24,4 +30,11 @@ fn main() {
 
     println! ("Cross {:?}", cross);
     println!("Dot {:?}", dot);
+
+    let serialized = serde_json::to_string(&norm1).unwrap();
+    println!("serialized = {}", serialized);
+
+    let deserialized: vector::Vector3 = serde_json::from_str(&serialized).unwrap();
+    println!("deserialized = {:?}", deserialized);
+
 }
