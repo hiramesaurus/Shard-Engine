@@ -1,40 +1,32 @@
-mod vector;
 
-#[macro_use]
-extern crate serde_derive;
+//The sdl2 crate is a safe Rust wrapper around SDL2 C API
+///https://rust-sdl2.github.io/rust-sdl2/sdl2/
+extern crate sdl2;
 
-extern crate serde;
-extern crate serde_json;
-
+///http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-01-window.html
 fn main() {
-    let vec1 = vector::Vector3 {
-        x: 4.0,
-        y: -5.0,
-        z: 2.0,
-    };
 
-    let vec2 = vector::Vector3 {
-        x: 2.0,
-        y: 1.0,
-        z: 0.0,
-    };
+    let sdl = sdl2::init().unwrap();
+    let vidoe_subsystem = sdl.video().unwrap();
+    let window = vidoe_subsystem
+        .window("Game", 900,700)//hakee vissiin vaan builderin sitä ikkunaa varten
+        .resizable()
+        .build()//tekee ite ikkunan
+        .unwrap();
 
-    let norm1 = vec1.normalized();
-    let norm2 = vec2.normalized();
-    let cross = norm1.cross(&norm2);
-    let dot = norm1.dot(&norm2);
+    //application event listener(?)
+    let mut event_pump = sdl.event_pump().unwrap();
 
-    println!("Vector 1: {:?} | Normalized: {:?}", vec1, norm1);
-    println!("Vector 2: {:?} | Normalized: {:?}", vec2, norm2);
+    'main: loop{
+        //input loop
+        for event in event_pump.poll_iter(){
+            match  event{
+                sdl2::event::Event::Quit {..} => break 'main,
+                _ =>{},
+            }
+        }
 
-
-    println! ("Cross {:?}", cross);
-    println!("Dot {:?}", dot);
-
-    let serialized = serde_json::to_string(&norm1).unwrap();
-    println!("serialized = {}", serialized);
-
-    let deserialized: vector::Vector3 = serde_json::from_str(&serialized).unwrap();
-    println!("deserialized = {:?}", deserialized);
+        //render window contents here
+    }
 
 }
